@@ -48,16 +48,32 @@ def print_table(table):
     Args:
         table: list of lists - the table to print out
     """
+    longest_string = []
+    for element in table:
+        for text in element:
+            longest_string.append(len(text))
+    max_word = max(longest_string)
     index = 0
+    if max_word < 16:
+        border_line = "+" + ("-" * ((len(table[0]) * 20) - 2)) + "+"
+    else:
+        border_line = "+" + ("-" * ((len(table[0]) * 29) - 2)) + "+"
+    print(border_line)
     for row in table:
         if index == 0:
-            line_of_text = "   "
+            line_of_text = "| {:^6} |".format("Index")
         else:
-            line_of_text = str(index) + "  "
+            line_of_text = "| {:^6} |".format(str(index))
         for col in row:
-            line_of_text += " {:>25} ".format(col)
+            if max_word < 16:
+                line_of_text += " {:^15} |".format(col)
+            else:
+                line_of_text += " {:^24} |".format(col)
+        if index != 0:
+            print(border_line)
         print(line_of_text)
         index += 1
+    print(border_line)
 
 
 def get_input(label):
@@ -66,7 +82,7 @@ def get_input(label):
     Args:
         label: str - the label before the user prompt
     """
-    return input("User input: ")
+    return input(f"Input {label}: ")
 
 
 def get_inputs(labels):
@@ -75,7 +91,11 @@ def get_inputs(labels):
     Args:
         labels: list - the list of the labels to be displayed before each prompt
     """
-    pass
+    user_data = []
+    for label in labels:
+        user_input = input(f"Input {label}: ")
+        user_data.append(user_input)
+    return user_data
 
 
 def print_error_message(message):

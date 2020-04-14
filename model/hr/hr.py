@@ -15,13 +15,13 @@ HEADERS = ["Id", "Name", "Date of birth", "Department", "Clearance"]
 
 
 def read_content_from_file_in_nested_list():
-    data = data_manager.read_table_from_file(DATAFILE, separator=';')
+    data = data_manager.read_table_from_file(DATAFILE)
     data.insert(0, HEADERS)
     return data
 
 
 def append_nested_list_and_write_content(entry):
-    data = data_manager.read_table_from_file(DATAFILE, separator=';')
+    data = data_manager.read_table_from_file(DATAFILE)
     name, birth_date, department, clearance = entry
     data_to_append = [util.generate_id(), name, birth_date, department, clearance]
     data.append(data_to_append)
@@ -29,14 +29,14 @@ def append_nested_list_and_write_content(entry):
 
 
 def delete_nested_list_and_write_content(number):
-    data = data_manager.read_table_from_file(DATAFILE, separator=';')
+    data = data_manager.read_table_from_file(DATAFILE)
     del data[int(number) - 1]
     write_to_file(data)
 
 
 def update_nested_list_and_write_content(number, entry):
     index_of_employee = int(number) - 1
-    list_of_employes = data_manager.read_table_from_file(DATAFILE, separator=';')
+    list_of_employes = data_manager.read_table_from_file(DATAFILE)
     name, birth_date, department, clearance = entry
     list_of_employes[index_of_employee][1] = name
     list_of_employes[index_of_employee][2] = birth_date
@@ -46,4 +46,4 @@ def update_nested_list_and_write_content(number, entry):
 
 
 def write_to_file(data):
-    return data_manager.write_table_to_file(DATAFILE, data, separator=';')
+    data_manager.write_table_to_file(DATAFILE, data)
