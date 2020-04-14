@@ -1,5 +1,6 @@
 from model.hr import hr
 from view import terminal as view
+import datetime
 
 
 def list_employees():
@@ -79,11 +80,33 @@ def get_average_age():
 
 
 def next_birthdays():
-    891013
-    930404
-    910228
+    label = "Employees which have birthday in 14days from inputted date"
+    list_of_employes = hr.read_content_from_file_in_nested_list()
+    name = 1
+    birth_date = 2
+    list_of_names = []
+    inputted_data = change_data_into_integer(view.get_input("data").split("-"))
+    inputted_birthday = datetime.date(inputted_data["year"], inputted_data["month"], inputted_data["day"])
+    for employee in list_of_employes:
+        employee_data = change_data_into_integer(employee[birth_date].split("-"))
+        employee_birthday = datetime.date(employee_data["year"], employee_data["month"], employee_data["day"])
+        if abs((employee_birthday - inputted_birthday).days) <= 14:
+            list_of_names.append(employee[name])
+    view.print_general_results(list_of_names, label)
 
-    view.print_error_message("Not implemented yet.")
+
+def change_data_into_integer(data):
+    year, month, day = data[0], data[1], data[2]
+    if month[0] == "0":
+        month = month.replace("0", "", 1)
+    if day[0] == "0":
+        day = day.replace("0", "", 1)
+    dictionary = {
+                "year": int(year),
+                "month": int(month),
+                "day": int(day)
+        }
+    return dictionary
 
 
 def count_employees_with_clearance():
