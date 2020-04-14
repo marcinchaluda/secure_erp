@@ -82,7 +82,7 @@ def get_input(label):
     Args:
         label: str - the label before the user prompt
     """
-    return input("User input: ")
+    return input(f"Input {label}: ")
 
 
 def get_inputs(labels):
@@ -91,7 +91,11 @@ def get_inputs(labels):
     Args:
         labels: list - the list of the labels to be displayed before each prompt
     """
-    pass
+    user_data = []
+    for label in labels:
+        user_input = input(f"Input {label}: ")
+        user_data.append(user_input)
+    return user_data
 
 
 def print_error_message(message):

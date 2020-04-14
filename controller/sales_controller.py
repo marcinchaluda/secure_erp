@@ -3,19 +3,24 @@ from view import terminal as view
 
 
 def list_transactions():
-    view.print_error_message("Not implemented yet.")
+    list_of_transactions = sales.list_transactions()
+    view.print_table(list_of_transactions)
 
 
 def add_transaction():
-    view.print_error_message("Not implemented yet.")
+    entry = view.get_inputs(["product", "price", "date"])
+    sales.add_transaction(entry)
 
 
 def update_transaction():
-    view.print_error_message("Not implemented yet.")
+    transaction_number = view.get_input("transaction number")
+    entry = view.get_inputs(["id", "customer", "product", "price", "date"])
+    sales.update_transaction(transaction_number, entry)
 
 
 def delete_transaction():
-    view.print_error_message("Not implemented yet.")
+    transaction_number = view.get_input("transaction number")
+    sales.remove_transaction(transaction_number)
 
 
 def get_biggest_revenue_transaction():
