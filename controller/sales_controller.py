@@ -24,11 +24,11 @@ def delete_transaction():
 
 
 def get_biggest_revenue_transaction():
-    view.print_error_message("Not implemented yet.")
+    view.print_message(sales.biggest_revenue_transaction())
 
 
 def get_biggest_revenue_product():
-    view.print_error_message("Not implemented yet.")
+    view.print_message(sales.biggest_revenue_altogether())
 
 
 def count_transactions_between():
