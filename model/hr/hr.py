@@ -15,6 +15,10 @@ HEADERS = ["Id", "Name", "Date of birth", "Department", "Clearance"]
 
 
 def read_content_from_file_in_nested_list():
+    return data_manager.read_table_from_file(DATAFILE)
+
+
+def print_content_from_file_in_nested_list():
     data = data_manager.read_table_from_file(DATAFILE)
     data.insert(0, HEADERS)
     return data

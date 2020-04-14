@@ -3,36 +3,47 @@ from view import terminal as view
 
 
 def list_employees():
-    list_of_employes = hr.read_content_from_file_in_nested_list()
+    list_of_employes = hr.print_content_from_file_in_nested_list()
     view.print_table(list_of_employes)
 
 
 def add_employee():
-    name = input("Please input name of employee: ")
-    birth_date = input("Please input birth date: ")
-    department = input("Please input department: ")
-    clearance = input("Please input clearance: ")
-    entry = [name, birth_date, department, clearance]
+    entry = get_input_from_user("add")
     hr.append_nested_list_and_write_content(entry)
 
 
 def update_employee():
-    number = input("Please input number of employee: ")
-    name = input("Please input new name of employee: ")
-    birth_date = input("Please input new birth date: ")
-    department = input("Please input new department: ")
-    clearance = input("Please input new clearance: ")
-    entry = [name, birth_date, department, clearance]
+    number = view.get_input("number of employee")
+    entry = get_input_from_user("update")
     hr.update_nested_list_and_write_content(number, entry)
 
 
+def get_input_from_user(mode):
+    text = {
+        "add": [
+            "name",
+            "birth date",
+            "department",
+            "clearance"
+            ],
+        "update": [
+            "new name",
+            "new birth date",
+            "new department",
+            "new clearance"
+            ]
+    }
+    entry = view.get_inputs(text[mode])
+    return entry
+
+
 def delete_employee():
-    number = input("Please input number of employee: ")
+    number = view.get_input("number of employee")
     hr.delete_nested_list_and_write_content(number)
 
 
 def get_oldest_and_youngest():
-    label = ("Oldest person:", "Youngest person:")
+    label = ("Oldest person", "Youngest person")
     list_of_employes = hr.read_content_from_file_in_nested_list()
     name = 1
     birth_date = 2
@@ -51,7 +62,7 @@ def get_oldest_and_youngest():
 
 
 def get_average_age():
-    label = "Average age of employees:"
+    label = "Average age of employees"
     list_of_employes = hr.read_content_from_file_in_nested_list()
     birth_date = 2
     list_of_birth_datas = []
@@ -68,15 +79,36 @@ def get_average_age():
 
 
 def next_birthdays():
+    891013
+    930404
+    910228
+
     view.print_error_message("Not implemented yet.")
 
 
 def count_employees_with_clearance():
-    view.print_error_message("Not implemented yet.")
+    label = "Number of employees with inputted clearance level or greater"
+    list_of_employes = hr.read_content_from_file_in_nested_list()
+    clearance = 4
+    iterator = 0
+    number = view.get_input("clearance level")
+    for employee in list_of_employes:
+        if employee[clearance] >= number:
+            iterator += 1
+    view.print_general_results(iterator, label)
 
 
 def count_employees_per_department():
-    view.print_error_message("Not implemented yet.")
+    label = "Employees in department in dictionary"
+    list_of_employes = hr.read_content_from_file_in_nested_list()
+    dictionary_of_departments = {}
+    department = 3
+    for employee in list_of_employes:
+        if employee[department] in dictionary_of_departments:
+            dictionary_of_departments[employee[department]] += 1
+        else:
+            dictionary_of_departments[employee[department]] = 1
+    view.print_general_results(dictionary_of_departments, label)
 
 
 def run_operation(option):

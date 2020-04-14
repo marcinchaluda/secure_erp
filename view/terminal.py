@@ -57,7 +57,7 @@ def print_table(table):
     if max_word < 16:
         border_line = "+" + ("-" * ((len(table[0]) * 20) - 2)) + "+"
     else:
-        border_line = "+" + ("-" * ((len(table[0]) * 29) - 2)) + "+"
+        border_line = "+" + ("-" * (len(table[0]) * 29)) + "+"
     print(border_line)
     for row in table:
         if index == 0:
