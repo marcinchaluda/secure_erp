@@ -4,10 +4,6 @@ from view import terminal as view
 
 def list_employees():
     list_of_employes = hr.read_content_from_file_in_nested_list()
-    line_of_text = "Nr."
-    for i in range(len(hr.HEADERS)):
-        line_of_text += " {:>12} ".format(hr.HEADERS[i])
-    print(line_of_text)
     view.print_table(list_of_employes)
 
 

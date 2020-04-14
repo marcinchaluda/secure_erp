@@ -48,9 +48,12 @@ def print_table(table):
     Args:
         table: list of lists - the table to print out
     """
-    index = 1
+    index = 0
     for row in table:
-        line_of_text = str(index) + "  "
+        if index == 0:
+            line_of_text = "   "
+        else:
+            line_of_text = str(index) + "  "
         for col in row:
             line_of_text += " {:>12} ".format(col)
         print(line_of_text)
