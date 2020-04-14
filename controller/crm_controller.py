@@ -3,23 +3,42 @@ from view import terminal as view
 
 
 def list_customers():
-    view.print_error_message("Not implemented yet.")
+    list_of_customers = crm.read_content_from_file_in_nested_list()
+    view.print_table(list_of_customers)
 
 
 def add_customer():
-    view.print_error_message("Not implemented yet.")
+    name = input("Please input name of customer: ")
+    email = input("Please input e-mail: ")
+    subscribed = input("Please input if subscribed(Yes - 1, No - 0): ")
+    entry = [name, email, subscribed]
+    crm.append_nested_list_and_write_content(entry)
 
 
 def update_customer():
-    view.print_error_message("Not implemented yet.")
+    number = input("Please input number of customer: ")
+    name = input("Please input new name of customer: ")
+    email = input("Please input new e-mail: ")
+    subscribed = input("Please input if subscribed(Yes - 1, No - 0): ")
+    entry = [name, email, subscribed]
+    crm.update_nested_list_and_write_content(number, entry)
 
 
 def delete_customer():
-    view.print_error_message("Not implemented yet.")
+    number = input("Please input number of employee: ")
+    crm.delete_nested_list_and_write_content(number)
 
 
 def get_subscribed_emails():
-    view.print_error_message("Not implemented yet.")
+    list_of_customers = crm.read_content_from_file_in_nested_list()
+    list_of_subscribed_emails = []
+    for i in list_of_customers:
+        if i[3] == '1':
+            list_of_subscribed_emails.append(i[2])
+    view.print_general_results(list_of_subscribed_emails, 'Subscribed emails:')
+
+           
+
 
 
 def run_operation(option):
