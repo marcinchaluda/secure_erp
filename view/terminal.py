@@ -1,6 +1,3 @@
-import os
-
-
 def print_menu(title, list_options):
     """Prints options in standard menu format like this:
 
@@ -14,13 +11,9 @@ def print_menu(title, list_options):
         title (str): the title of the menu (first row)
         list_options (list): list of the menu options (listed starting from 1, 0th element goes to the end)
     """
-    #os.system("clear")
     print(title)
     for i in range(len(list_options)):
-        if len(list_options) == i:
-            print("0 ", list_options[i])
-        else:
-            print(i, " ", list_options[i])
+        print(i, " ", list_options[i])
 
 
 def print_message(message):
@@ -38,7 +31,8 @@ def print_general_results(result, label):
     lists/tuples (like "@label: \n  @item1; @item2"), and dictionaries
     (like "@label \n  @key1: @value1; @key2: @value2")
     """
-    pass
+    print(label)
+    print(result)
 
 
 # /--------------------------------\
@@ -54,8 +48,16 @@ def print_table(table):
     Args:
         table: list of lists - the table to print out
     """
-    for i in range(len(table)):
-        print(table[i])
+    index = 0
+    for row in table:
+        if index == 0:
+            line_of_text = "   "
+        else:
+            line_of_text = str(index) + "  "
+        for col in row:
+            line_of_text += " {:>25} ".format(col)
+        print(line_of_text)
+        index += 1
 
 
 def get_input(label):
