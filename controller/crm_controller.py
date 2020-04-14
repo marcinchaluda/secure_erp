@@ -3,11 +3,12 @@ from view import terminal as view
 
 
 def list_customers():
-    view.print_error_message("Not implemented yet.")
 
+   # view.print_table(table, HEADERS)
+    
 
 def add_customer():
-    view.print_error_message("Not implemented yet.")
+    data. 
 
 
 def update_customer():
