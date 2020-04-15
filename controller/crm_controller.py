@@ -25,9 +25,11 @@ def update_customer():
 
 
 def delete_customer():
-    number = input("Please input number of employee: ")
-    crm.delete_nested_list_and_write_content(number)
-
+    number = input("Please input number of customer: ")
+    try:
+        crm.delete_nested_list_and_write_content(number)
+    except ValueError:
+        view.print_error_message("delete")
 
 def get_subscribed_emails():
     list_of_customers = crm.read_content_from_file_in_nested_list()

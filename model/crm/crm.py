@@ -30,6 +30,8 @@ def append_nested_list_and_write_content(entry):
 
 def delete_nested_list_and_write_content(number):
     data = data_manager.read_table_from_file(DATAFILE)
+    if int(number) > len(data):
+        raise ValueError
     del data[int(number) - 1]
     write_to_file(data)
 
