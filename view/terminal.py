@@ -33,7 +33,7 @@ def print_general_results(result, label):
     """
     if type(result) == int or type(result) == float:
         print(f"{label} : {round(result, 2)}")
-    elif: type(result) == list or type(result) == tuple:
+    elif type(result) == list or type(result) == tuple:
         print(label + ":")
         print(result)
     else:
