@@ -15,15 +15,20 @@ def add_transaction():
 
 
 def update_transaction():
-    transaction_number = view.get_input("transaction number")
-    entry = view.get_inputs(["id", "customer", "product", "price", "date"])
-    sales.update_transaction(transaction_number, entry)
-
-
-def delete_transaction():
     try:
         transaction_number = view.get_input("transaction number")
-        if transaction_number == 0:
+        if int(transaction_number) == 0:
+            raise IndexError
+        entry = view.get_inputs(["id", "customer", "product", "price", "date"])
+        sales.update_transaction(transaction_number, entry)
+    except IndexError:
+        view.print_error_message("Index not found")
+
+
+def remove_transaction():
+    try:
+        transaction_number = view.get_input("transaction number")
+        if int(transaction_number) == 0:
             raise IndexError
         sales.remove_transaction(transaction_number)
     except IndexError:
