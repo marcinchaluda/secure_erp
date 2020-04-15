@@ -29,7 +29,7 @@ def print_general_results(result, label):
     else:
         print(label + ":")
         for key in result:
-            print(str(key +' : '+ str(result[key])), end = '; ')
+            print(str(key + ' : ' + str(result[key])), end='; ')
         print()
 
 
