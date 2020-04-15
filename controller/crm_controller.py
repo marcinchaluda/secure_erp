@@ -38,7 +38,7 @@ def get_subscribed_emails():
     for i in list_of_customers:
         if i[3] == '1':
             list_of_subscribed_emails.append(i[2])
-    view.print_general_results(list_of_subscribed_emails, 'Subscribed emails:')
+    view.print_general_results(list_of_subscribed_emails, 'Subscribed emails')
 
            
 
