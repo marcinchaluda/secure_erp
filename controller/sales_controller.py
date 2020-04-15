@@ -24,11 +24,34 @@ def delete_transaction():
 
 
 def get_biggest_revenue_transaction():
-    view.print_message(sales.biggest_revenue_transaction())
+    transactions = sales.read_data_from_file()
+    price_index = sales.HEADERS.index("Price")
+    transaction_price = [float(transaction[price_index]) for transaction in transactions]
+    transaction_index = transaction_price.index(max(transaction_price))
+    view.print_message(transactions[transaction_index])
 
 
 def get_biggest_revenue_product():
-    view.print_message(sales.biggest_revenue_altogether())
+    transactions = sales.read_data_from_file()
+    price_index = sales.HEADERS.index("Price")
+    product_index = sales.HEADERS.index("Product")
+    products_revenue = {}
+    product_scores = []
+
+    for transaction in transactions:
+        if transaction[product_index] not in products_revenue.keys():
+            products_revenue[transaction[product_index]] = [float(transaction[price_index])]
+        else:
+            products_revenue[transaction[product_index]].append(float(transaction[price_index]))
+
+    for key, value in products_revenue.items():
+        product_scores.append(sum(value))
+
+    best_seller = max(product_scores)
+
+    for key, value in products_revenue.items():
+        if best_seller == sum(value):
+            view.print_message(key)
 
 
 def count_transactions_between():
