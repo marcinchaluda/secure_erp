@@ -16,6 +16,9 @@ def add_employee():
 def update_employee():
     try:
         entry = get_input_from_user("update")
+        number_of_employee = entry[0]
+        if int(entry[number_of_employee]) == 0:
+            raise IndexError
         hr.update_nested_list_and_write_content(entry)
     except IndexError:
         view.print_error_message("Index not found")
@@ -44,6 +47,8 @@ def get_input_from_user(mode):
 def delete_employee():
     try:
         number = view.get_input("number of employee")
+        if int(number) == 0:
+            raise IndexError
         hr.delete_nested_list_and_write_content(number)
     except IndexError:
         view.print_error_message("Index not found")
@@ -102,9 +107,6 @@ def next_birthdays():
     if len(str(max_day)) == 1:
         max_day = "0" + str(max_day)
     end_data = "-".join([str(max_year), str(max_month), str(max_day)])
-    print(start_data)
-    print(max_data)
-    print(end_data)
     for employee in list_of_employes:
         if employee[birth_date] >= start_data and employee[birth_date] <= end_data:
             list_of_employes_with_birthday.append(employee[name])
