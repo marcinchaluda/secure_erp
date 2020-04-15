@@ -25,6 +25,7 @@ def display_menu():
 
 
 def menu():
+    system("clear")
     option = None
     while option != '0':
         display_menu()
