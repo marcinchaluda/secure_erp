@@ -28,9 +28,11 @@ def update_customer():
 def delete_customer():
     number = input("Please input number of customer: ")
     try:
+        if int(number) == 0:
+            raise IndexError
         crm.delete_nested_list_and_write_content(number)
-    except ValueError:
-        view.print_error_message("delete")
+    except IndexError:
+        view.print_error_message('There is no position with this number!')
 
 def get_subscribed_emails():
     list_of_customers = crm.read_content_from_file_in_nested_list()
