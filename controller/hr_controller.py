@@ -1,6 +1,5 @@
 from model.hr import hr
 from view import terminal as view
-import datetime
 
 
 def list_employees():
@@ -82,31 +81,32 @@ def get_average_age():
 def next_birthdays():
     label = "Employees which have birthday in 14days from inputted date"
     list_of_employes = hr.read_content_from_file_in_nested_list()
+    list_of_employes_with_birthday = []
     name = 1
     birth_date = 2
-    list_of_names = []
-    inputted_data = change_data_into_integer(view.get_input("data").split("-"))
-    inputted_birthday = datetime.date(inputted_data["year"], inputted_data["month"], inputted_data["day"])
+    start_data = view.get_input("data")
+    max_data = start_data.split("-")
+    max_year = int(max_data[0])
+    max_month = int(max_data[1])
+    max_day = int(max_data[2]) + 14
+    if max_day > 30:
+        max_month = max_month + 1
+        if max_month > 12:
+            max_year = max_year + 1
+            max_month = max_month - 12
+        max_day = max_day - 30
+    if len(str(max_month)) == 1:
+        max_month = "0" + str(max_month)
+    if len(str(max_day)) == 1:
+        max_day = "0" + str(max_day)
+    end_data = "-".join([str(max_year), str(max_month), str(max_day)])
+    print(start_data)
+    print(max_data)
+    print(end_data)
     for employee in list_of_employes:
-        employee_data = change_data_into_integer(employee[birth_date].split("-"))
-        employee_birthday = datetime.date(employee_data["year"], employee_data["month"], employee_data["day"])
-        if abs((employee_birthday - inputted_birthday).days) <= 14:
-            list_of_names.append(employee[name])
-    view.print_general_results(list_of_names, label)
-
-
-def change_data_into_integer(data):
-    year, month, day = data[0], data[1], data[2]
-    if month[0] == "0":
-        month = month.replace("0", "", 1)
-    if day[0] == "0":
-        day = day.replace("0", "", 1)
-    dictionary = {
-                "year": int(year),
-                "month": int(month),
-                "day": int(day)
-        }
-    return dictionary
+        if employee[birth_date] >= start_data and employee[birth_date] <= end_data:
+            list_of_employes_with_birthday.append(employee[name])
+    view.print_general_results(list_of_employes_with_birthday, label)
 
 
 def count_employees_with_clearance():
