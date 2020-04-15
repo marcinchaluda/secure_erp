@@ -18,19 +18,26 @@ def add_customer():
 
 def update_customer():
     number = input("Please input number of customer: ")
-    name = input("Please input new name of customer: ")
-    email = input("Please input new e-mail: ")
-    subscribed = input("Please input if subscribed(Yes - 1, No - 0): ")
-    entry = [name, email, subscribed]
-    crm.update_nested_list_and_write_content(number, entry)
+    try:
+        if int(number) == 0:
+            raise IndexError
+        name = input("Please input new name of customer: ")
+        email = input("Please input new e-mail: ")
+        subscribed = input("Please input if subscribed(Yes - 1, No - 0): ")
+        entry = [name, email, subscribed]
+        crm.update_nested_list_and_write_content(number, entry)
+    except IndexError:
+        view.print_error_message('There is no position with this number!')
 
 
 def delete_customer():
     number = input("Please input number of customer: ")
     try:
+        if int(number) == 0:
+            raise IndexError
         crm.delete_nested_list_and_write_content(number)
-    except ValueError:
-        view.print_error_message("delete")
+    except IndexError:
+        view.print_error_message('There is no position with this number!')
 
 def get_subscribed_emails():
     list_of_customers = crm.read_content_from_file_in_nested_list()

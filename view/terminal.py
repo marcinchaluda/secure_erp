@@ -116,7 +116,5 @@ def print_error_message(message):
     Args:
         message: str - the error message
     """
-    if message == "delete":
-        print("\nThere is no position with this number!\n")
-    else:
-        print(message)
+        
+    print('\n'+ message +'\n')
