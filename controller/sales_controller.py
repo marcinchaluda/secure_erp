@@ -21,8 +21,13 @@ def update_transaction():
 
 
 def delete_transaction():
-    transaction_number = view.get_input("transaction number")
-    sales.remove_transaction(transaction_number)
+    try:
+        transaction_number = view.get_input("transaction number")
+        if transaction_number == 0:
+            raise IndexError
+        sales.remove_transaction(transaction_number)
+    except IndexError:
+        view.print_error_message("Index not found")
 
 
 def get_biggest_revenue_transaction():
