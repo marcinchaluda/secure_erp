@@ -14,9 +14,8 @@ def add_employee():
 
 
 def update_employee():
-    number = view.get_input("number of employee")
     entry = get_input_from_user("update")
-    hr.update_nested_list_and_write_content(number, entry)
+    hr.update_nested_list_and_write_content(entry)
 
 
 def get_input_from_user(mode):
@@ -28,6 +27,7 @@ def get_input_from_user(mode):
             "clearance"
             ],
         "update": [
+            "number of employee",
             "new name",
             "new birth date",
             "new department",
