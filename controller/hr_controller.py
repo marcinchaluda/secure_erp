@@ -15,11 +15,11 @@ def add_employee():
 
 def update_employee():
     try:
-        entry = get_input_from_user("update")
-        number_of_employee = entry[0]
-        if int(entry[number_of_employee]) == 0:
+        number = view.get_input("number of employee")
+        if int(number) == 0 or int(number) > len(hr.read_content_from_file_in_nested_list()):
             raise IndexError
-        hr.update_nested_list_and_write_content(entry)
+        entry = get_input_from_user("update")
+        hr.update_nested_list_and_write_content(number, entry)
     except IndexError:
         view.print_error_message("Index not found")
 
@@ -33,7 +33,6 @@ def get_input_from_user(mode):
             "clearance"
             ],
         "update": [
-            "number of employee",
             "new name",
             "new birth date",
             "new department",
