@@ -28,7 +28,8 @@ def print_general_results(result, label):
         print(*result)
     else:
         print(label + ":")
-        print(result)
+        for key in result:
+            print(str(key +' : '+ str(result[key])), end = '; ')
 
 
 # /--------------------------------\
