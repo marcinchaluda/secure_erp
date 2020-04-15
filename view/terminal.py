@@ -30,6 +30,7 @@ def print_general_results(result, label):
         print(label + ":")
         for key in result:
             print(str(key +' : '+ str(result[key])), end = '; ')
+        print()
 
 
 # /--------------------------------\
@@ -117,3 +118,5 @@ def print_error_message(message):
     """
     if message == "delete":
         print("\nThere is no position with this number!\n")
+    else:
+        print(message)
