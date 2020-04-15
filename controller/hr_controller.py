@@ -1,6 +1,6 @@
 from model.hr import hr
 from view import terminal as view
-import datetime
+from os import system
 
 
 def list_employees():
@@ -14,8 +14,11 @@ def add_employee():
 
 
 def update_employee():
-    entry = get_input_from_user("update")
-    hr.update_nested_list_and_write_content(entry)
+    try:
+        entry = get_input_from_user("update")
+        hr.update_nested_list_and_write_content(entry)
+    except IndexError:
+        view.print_error_message("Index not found")
 
 
 def get_input_from_user(mode):
@@ -39,26 +42,24 @@ def get_input_from_user(mode):
 
 
 def delete_employee():
-    number = view.get_input("number of employee")
-    hr.delete_nested_list_and_write_content(number)
+    try:
+        number = view.get_input("number of employee")
+        hr.delete_nested_list_and_write_content(number)
+    except IndexError:
+        view.print_error_message("Index not found")
 
 
 def get_oldest_and_youngest():
-    label = ("Oldest person", "Youngest person")
+    label = ("Oldest person and Youngest person")
     list_of_employes = hr.read_content_from_file_in_nested_list()
     name = 1
     birth_date = 2
-    list_of_birth_datas = []
+    dict_of_birth_datas = {}
     for employee in list_of_employes:
-        list_of_birth_datas.append(employee[birth_date])
-    max_data = max(list_of_birth_datas)
-    min_data = min(list_of_birth_datas)
-    for employee in list_of_employes:
-        if max_data == employee[birth_date]:
-            youngest_name = employee[name]
-        if min_data == employee[birth_date]:
-            oldest_name = employee[name]
-    results = (oldest_name, youngest_name)
+        dict_of_birth_datas[employee[birth_date]] = employee[name]
+    oldest_date = min(dict_of_birth_datas)
+    youngest_date = max(dict_of_birth_datas)
+    results = (dict_of_birth_datas[oldest_date], dict_of_birth_datas[youngest_date])
     view.print_general_results(results, label)
 
 
@@ -82,31 +83,32 @@ def get_average_age():
 def next_birthdays():
     label = "Employees which have birthday in 14days from inputted date"
     list_of_employes = hr.read_content_from_file_in_nested_list()
+    list_of_employes_with_birthday = []
     name = 1
     birth_date = 2
-    list_of_names = []
-    inputted_data = change_data_into_integer(view.get_input("data").split("-"))
-    inputted_birthday = datetime.date(inputted_data["year"], inputted_data["month"], inputted_data["day"])
+    start_data = view.get_input("data")
+    max_data = start_data.split("-")
+    max_year = int(max_data[0])
+    max_month = int(max_data[1])
+    max_day = int(max_data[2]) + 14
+    if max_day > 30:
+        max_month = max_month + 1
+        if max_month > 12:
+            max_year = max_year + 1
+            max_month = max_month - 12
+        max_day = max_day - 30
+    if len(str(max_month)) == 1:
+        max_month = "0" + str(max_month)
+    if len(str(max_day)) == 1:
+        max_day = "0" + str(max_day)
+    end_data = "-".join([str(max_year), str(max_month), str(max_day)])
+    print(start_data)
+    print(max_data)
+    print(end_data)
     for employee in list_of_employes:
-        employee_data = change_data_into_integer(employee[birth_date].split("-"))
-        employee_birthday = datetime.date(employee_data["year"], employee_data["month"], employee_data["day"])
-        if abs((employee_birthday - inputted_birthday).days) <= 14:
-            list_of_names.append(employee[name])
-    view.print_general_results(list_of_names, label)
-
-
-def change_data_into_integer(data):
-    year, month, day = data[0], data[1], data[2]
-    if month[0] == "0":
-        month = month.replace("0", "", 1)
-    if day[0] == "0":
-        day = day.replace("0", "", 1)
-    dictionary = {
-                "year": int(year),
-                "month": int(month),
-                "day": int(day)
-        }
-    return dictionary
+        if employee[birth_date] >= start_data and employee[birth_date] <= end_data:
+            list_of_employes_with_birthday.append(employee[name])
+    view.print_general_results(list_of_employes_with_birthday, label)
 
 
 def count_employees_with_clearance():
@@ -179,6 +181,7 @@ def menu():
         display_menu()
         try:
             operation = view.get_input("Select an operation")
+            system("clear")
             run_operation(int(operation))
         except KeyError as err:
             view.print_error_message(err)

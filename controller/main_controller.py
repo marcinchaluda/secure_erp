@@ -1,5 +1,6 @@
 from view import terminal as view
 from controller import crm_controller, sales_controller, hr_controller
+from os import system
 
 
 def load_module(option):
@@ -24,11 +25,13 @@ def display_menu():
 
 
 def menu():
+    system("clear")
     option = None
     while option != '0':
         display_menu()
         try:
             option = view.get_input("Select module")
+            system("clear")
             load_module(int(option))
         except KeyError:
             view.print_error_message("There is no such option!")

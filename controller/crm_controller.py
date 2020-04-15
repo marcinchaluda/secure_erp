@@ -1,5 +1,6 @@
 from model.crm import crm
 from view import terminal as view
+from os import system
 
 
 def list_customers():
@@ -25,9 +26,11 @@ def update_customer():
 
 
 def delete_customer():
-    number = input("Please input number of employee: ")
-    crm.delete_nested_list_and_write_content(number)
-
+    number = input("Please input number of customer: ")
+    try:
+        crm.delete_nested_list_and_write_content(number)
+    except ValueError:
+        view.print_error_message("delete")
 
 def get_subscribed_emails():
     list_of_customers = crm.read_content_from_file_in_nested_list()
@@ -35,7 +38,7 @@ def get_subscribed_emails():
     for i in list_of_customers:
         if i[3] == '1':
             list_of_subscribed_emails.append(i[2])
-    view.print_general_results(list_of_subscribed_emails, 'Subscribed emails:')
+    view.print_general_results(list_of_subscribed_emails, 'Subscribed emails')
 
            
 
@@ -74,6 +77,7 @@ def menu():
         display_menu()
         try:
             operation = view.get_input("Select an operation")
+            system("clear")
             run_operation(int(operation))
         except KeyError as err:
             view.print_error_message(err)

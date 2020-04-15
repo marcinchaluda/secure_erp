@@ -1,19 +1,9 @@
 def print_menu(title, list_options):
-    """Prints options in standard menu format like this:
-
-    Main menu:
-    (1) Store manager
-    (2) Human resources manager
-    (3) Inventory manager
-    (0) Exit program
-
-    Args:
-        title (str): the title of the menu (first row)
-        list_options (list): list of the menu options (listed starting from 1, 0th element goes to the end)
-    """
-    print(title)
+    print("{}:".format(title))
     for i in range(len(list_options)):
-        print(i, " ", list_options[i])
+        if i != 0:
+            print("({}) ".format(i), list_options[i])
+    print("({}) ".format("0"), list_options[0])
 
 
 def print_message(message):
@@ -35,10 +25,12 @@ def print_general_results(result, label):
         print(f"{label} : {round(result, 2)}")
     elif type(result) == list or type(result) == tuple:
         print(label + ":")
-        print(result)
+        print(*result)
     else:
-        print(label)
-        print(result)
+        print(label + ":")
+        for key in result:
+            print(str(key +' : '+ str(result[key])), end = '; ')
+        print()
 
 
 # /--------------------------------\
@@ -49,37 +41,51 @@ def print_general_results(result, label):
 # |   1    | Sidewinder | missile  |
 # \-----------------------------------/
 def print_table(table):
-    """Prints tabular data like above.
-
-    Args:
-        table: list of lists - the table to print out
-    """
     longest_string = []
     for element in table:
         for text in element:
             longest_string.append(len(text))
-    max_word = max(longest_string)
+    border_line = get_border_line_from_max_word(len(table[0]), max(longest_string))
+    dividing_line = get_dividing_line_from_max_word(len(table[0]), max(longest_string))
     index = 0
-    if max_word < 16:
-        border_line = "+" + ("-" * ((len(table[0]) * 20) - 2)) + "+"
-    else:
-        border_line = "+" + ("-" * (len(table[0]) * 29)) + "+"
+    line_of_text = ""
     print(border_line)
     for row in table:
-        if index == 0:
-            line_of_text = "| {:^6} |".format("Index")
-        else:
-            line_of_text = "| {:^6} |".format(str(index))
+        line_of_text = get_starting_index_of_line(index)
         for col in row:
-            if max_word < 16:
-                line_of_text += " {:^15} |".format(col)
-            else:
-                line_of_text += " {:^24} |".format(col)
+            line_of_text += get_line_of_text_from_max_word_and_col(col, max(longest_string))
         if index != 0:
-            print(border_line)
+            print(dividing_line)
         print(line_of_text)
         index += 1
     print(border_line)
+
+
+def get_border_line_from_max_word(len_of_table, max_word):
+    if max_word < 16:
+        return "+" + ("-" * ((len_of_table * 20) - 2)) + "+"
+    return "+" + ("-" * ((len_of_table * 29))) + "+"
+
+
+def get_dividing_line_from_max_word(len_of_table, max_word):
+    start_string = "+" + ("-" * 8)
+    if max_word < 16:
+        start_string += ("+" + ("-" * 17)) * len_of_table + "+"
+        return start_string
+    start_string += ("+" + ("-" * 26)) * len_of_table + "+"
+    return start_string
+
+
+def get_starting_index_of_line(index):
+    if index == 0:
+        return "| {:^6} |".format("Index")
+    return "| {:^6} |".format(str(index))
+
+
+def get_line_of_text_from_max_word_and_col(col, max_word):
+    if max_word < 16:
+        return " {:^15} |".format(col)
+    return " {:^24} |".format(col)
 
 
 def get_input(label):
@@ -110,4 +116,7 @@ def print_error_message(message):
     Args:
         message: str - the error message
     """
-    pass
+    if message == "delete":
+        print("\nThere is no position with this number!\n")
+    else:
+        print(message)
