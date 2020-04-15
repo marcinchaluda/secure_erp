@@ -44,6 +44,7 @@ def print_table(table):
         for text in element:
             longest_string.append(len(text))
     border_line = get_border_line_from_max_word(len(table[0]), max(longest_string))
+    dividing_line = get_dividing_line_from_max_word(len(table[0]), max(longest_string))
     index = 0
     line_of_text = ""
     print(border_line)
@@ -52,7 +53,7 @@ def print_table(table):
         for col in row:
             line_of_text += get_line_of_text_from_max_word_and_col(col, max(longest_string))
         if index != 0:
-            print(border_line)
+            print(dividing_line)
         print(line_of_text)
         index += 1
     print(border_line)
@@ -62,6 +63,15 @@ def get_border_line_from_max_word(len_of_table, max_word):
     if max_word < 16:
         return "+" + ("-" * ((int(len_of_table) * 20) - 2)) + "+"
     return "+" + ("-" * ((int(len_of_table) * 29))) + "+"
+
+
+def get_dividing_line_from_max_word(len_of_table, max_word):
+    start_string = "+" + ("-" * 8)
+    if max_word < 16:
+        start_string += ("+" + ("-" * 17)) * len_of_table + "+"
+        return start_string
+    start_string += ("+" + ("-" * 26)) * len_of_table + "+"
+    return start_string
 
 
 def get_starting_index_of_line(index):
