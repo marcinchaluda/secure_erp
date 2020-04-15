@@ -1,5 +1,6 @@
 from model.sales import sales
 from view import terminal as view
+import time
 
 
 def list_transactions():
@@ -54,12 +55,36 @@ def get_biggest_revenue_product():
             view.print_message(key)
 
 
-def count_transactions_between():
-    view.print_error_message("Not implemented yet.")
+def check_dates(start_date, end_date, transaction_date):
+    start_date = time.strptime(start_date, "%Y-%m-%d")
+    end_date = time.strptime(end_date, "%Y-%m-%d")
+    transaction_date = time.strptime(transaction_date, "%Y-%m-%d")
+    if transaction_date >= start_date and transaction_date <= end_date:
+        return True
+    return False
+
+
+def count_transactions_between(other_funtion_use=False):
+    start_date, end_date = view.get_inputs(["start date", "end date"])
+    transactions = sales.read_data_from_file()
+    data_index = sales.HEADERS.index("Date")
+    transactions_between_dates = []
+    for transaction in transactions:
+        compare_dates = check_dates(start_date, end_date, transaction[data_index])
+        if compare_dates:
+            transactions_between_dates.append(transaction)
+    if other_funtion_use:
+        return transactions_between_dates
+    else:
+        view.print_message(len(transactions_between_dates))
 
 
 def sum_transactions_between():
-    view.print_error_message("Not implemented yet.")
+    transactions_between_dates = count_transactions_between(True)
+    price_index = sales.HEADERS.index("Price")
+    transactions_price = [float(element[price_index]) for element in transactions_between_dates]
+    prices_sum = sum(transactions_price)
+    view.print_message(prices_sum)
 
 
 def run_operation(option):
