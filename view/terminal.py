@@ -61,8 +61,8 @@ def print_table(table):
 
 def get_border_line_from_max_word(len_of_table, max_word):
     if max_word < 16:
-        return "+" + ("-" * ((int(len_of_table) * 20) - 2)) + "+"
-    return "+" + ("-" * ((int(len_of_table) * 29))) + "+"
+        return "+" + ("-" * ((len_of_table * 20) - 2)) + "+"
+    return "+" + ("-" * ((len_of_table * 29))) + "+"
 
 
 def get_dividing_line_from_max_word(len_of_table, max_word):
