@@ -1,5 +1,6 @@
 from model.crm import crm
 from view import terminal as view
+from os import system
 
 
 def list_customers():
@@ -74,6 +75,7 @@ def menu():
         display_menu()
         try:
             operation = view.get_input("Select an operation")
+            system("clear")
             run_operation(int(operation))
         except KeyError as err:
             view.print_error_message(err)

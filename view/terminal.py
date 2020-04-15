@@ -25,10 +25,10 @@ def print_general_results(result, label):
         print(f"{label} : {round(result, 2)}")
     elif type(result) == list or type(result) == tuple:
         print(label + ":")
-        print(result)
+        print(*result)
     else:
-        print(label)
-        print(result)
+        print(label + ":")
+        print(*result)
 
 
 # /--------------------------------\

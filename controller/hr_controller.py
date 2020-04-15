@@ -1,5 +1,6 @@
 from model.hr import hr
 from view import terminal as view
+from os import system
 
 
 def list_employees():
@@ -13,8 +14,11 @@ def add_employee():
 
 
 def update_employee():
-    entry = get_input_from_user("update")
-    hr.update_nested_list_and_write_content(entry)
+    try:
+        entry = get_input_from_user("update")
+        hr.update_nested_list_and_write_content(entry)
+    except IndexError:
+        view.print_error_message("Index not found")
 
 
 def get_input_from_user(mode):
@@ -38,26 +42,24 @@ def get_input_from_user(mode):
 
 
 def delete_employee():
-    number = view.get_input("number of employee")
-    hr.delete_nested_list_and_write_content(number)
+    try:
+        number = view.get_input("number of employee")
+        hr.delete_nested_list_and_write_content(number)
+    except IndexError:
+        view.print_error_message("Index not found")
 
 
 def get_oldest_and_youngest():
-    label = ("Oldest person", "Youngest person")
+    label = ("Oldest person and Youngest person")
     list_of_employes = hr.read_content_from_file_in_nested_list()
     name = 1
     birth_date = 2
-    list_of_birth_datas = []
+    dict_of_birth_datas = {}
     for employee in list_of_employes:
-        list_of_birth_datas.append(employee[birth_date])
-    max_data = max(list_of_birth_datas)
-    min_data = min(list_of_birth_datas)
-    for employee in list_of_employes:
-        if max_data == employee[birth_date]:
-            youngest_name = employee[name]
-        if min_data == employee[birth_date]:
-            oldest_name = employee[name]
-    results = (oldest_name, youngest_name)
+        dict_of_birth_datas[employee[birth_date]] = employee[name]
+    oldest_date = min(dict_of_birth_datas)
+    youngest_date = max(dict_of_birth_datas)
+    results = (dict_of_birth_datas[oldest_date], dict_of_birth_datas[youngest_date])
     view.print_general_results(results, label)
 
 
@@ -179,6 +181,7 @@ def menu():
         display_menu()
         try:
             operation = view.get_input("Select an operation")
+            system("clear")
             run_operation(int(operation))
         except KeyError as err:
             view.print_error_message(err)
