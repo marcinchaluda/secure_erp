@@ -28,7 +28,7 @@ def print_general_results(result, label):
         print(*result)
     else:
         print(label + ":")
-        print(*result)
+        print(result)
 
 
 # /--------------------------------\
