@@ -74,10 +74,8 @@ def get_average_age():
     birth_date = 2
     list_of_birth_datas = []
     for employee in list_of_employes:
-        year_of_birthday = ""
-        for i in range(4):
-            year_of_birthday += employee[birth_date][i]
-        list_of_birth_datas.append(2020 - int(year_of_birthday))
+        year_of_birthday = employee[birth_date].split("-")
+        list_of_birth_datas.append(2020 - int(year_of_birthday[0]))
     sum_of_age = 0
     for age in range(len(list_of_birth_datas)):
         sum_of_age += list_of_birth_datas[age]
@@ -93,9 +91,7 @@ def next_birthdays():
     birth_date = 2
     start_data = view.get_input("data")
     max_data = start_data.split("-")
-    max_year = int(max_data[0])
-    max_month = int(max_data[1])
-    max_day = int(max_data[2]) + 14
+    max_year, max_month, max_day = int(max_data[0]), int(max_data[1]), int(max_data[2]) + 14
     if max_day > 30:
         max_month = max_month + 1
         if max_month > 12:
