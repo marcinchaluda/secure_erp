@@ -38,8 +38,8 @@ def delete_nested_list_and_write_content(number):
     write_to_file(data)
 
 
-def update_nested_list_and_write_content(entry):
-    index_of_employee, name, birth_date, department, clearance = entry
+def update_nested_list_and_write_content(index_of_employee, entry):
+    name, birth_date, department, clearance = entry
     list_of_employes = data_manager.read_table_from_file(DATAFILE)
     employee_atribute = {
         "index": int(index_of_employee) - 1,
