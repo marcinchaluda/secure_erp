@@ -30,20 +30,17 @@ def append_nested_list_and_write_content(entry):
 
 def delete_nested_list_and_write_content(number):
     data = data_manager.read_table_from_file(DATAFILE)
-    if int(number) > len(data):
-        raise ValueError
     del data[int(number) - 1]
     write_to_file(data)
 
 
 def update_nested_list_and_write_content(number, entry):
+    data = data_manager.read_table_from_file(DATAFILE)
     index_of_customer = int(number) - 1
-    list_of_customers = data_manager.read_table_from_file(DATAFILE)
-    name, email, subscribed = entry
-    list_of_customers[index_of_customer][1] = name
-    list_of_customers[index_of_customer][2] = email
-    list_of_customers[index_of_customer][3] = subscribed
-    write_to_file(list_of_customers)
+    data[index_of_customer][1] = entry[0]
+    data[index_of_customer][2] = entry[1]
+    data[index_of_customer][3] = entry[2]
+    write_to_file(data)
 
 
 def write_to_file(data):

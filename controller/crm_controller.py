@@ -9,22 +9,16 @@ def list_customers():
 
 
 def add_customer():
-    name = input("Please input name of customer: ")
-    email = input("Please input e-mail: ")
-    subscribed = input("Please input if subscribed(Yes - 1, No - 0): ")
-    entry = [name, email, subscribed]
+    entry = view.get_inputs['name', 'email', 'if subscribed(Yes-1, No-0)']
     crm.append_nested_list_and_write_content(entry)
 
 
 def update_customer():
     number = input("Please input number of customer: ")
+    entry = view.get_inputs(['new name', 'new email', 'if subscribed(Yes-1, No-0'])
     try:
         if int(number) == 0:
-            raise IndexError
-        name = input("Please input new name of customer: ")
-        email = input("Please input new e-mail: ")
-        subscribed = input("Please input if subscribed(Yes - 1, No - 0): ")
-        entry = [name, email, subscribed]
+            raise IndexError   
         crm.update_nested_list_and_write_content(number, entry)
     except IndexError:
         view.print_error_message('There is no position with this number!')
@@ -39,6 +33,7 @@ def delete_customer():
     except IndexError:
         view.print_error_message('There is no position with this number!')
 
+
 def get_subscribed_emails():
     list_of_customers = crm.read_content_from_file_in_nested_list()
     list_of_subscribed_emails = []
@@ -46,9 +41,6 @@ def get_subscribed_emails():
         if i[3] == '1':
             list_of_subscribed_emails.append(i[2])
     view.print_general_results(list_of_subscribed_emails, 'Subscribed emails')
-
-           
-
 
 
 def run_operation(option):
