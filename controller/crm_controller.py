@@ -15,9 +15,8 @@ def add_customer():
 
 def update_customer():
     number = input("Please input number of customer: ")
-    entry = view.get_inputs(['new name', 'new email', 'if subscribed(Yes-1, No-0'])
     try:
-        if int(number) == 0:
+        if int(number) == 0 or int(number) > len(crm.read_content_from_file_in_nested_list()):
             raise IndexError
         crm.update_nested_list_and_write_content(number, entry)
     except IndexError:
@@ -37,9 +36,9 @@ def delete_customer():
 def get_subscribed_emails():
     list_of_customers = crm.read_content_from_file_in_nested_list()
     list_of_subscribed_emails = []
-    for i in list_of_customers:
-        if i[3] == '1':
-            list_of_subscribed_emails.append(i[2])
+    for customer in list_of_customers:
+        if customer[3] == '1':
+            list_of_subscribed_emails.append(customer[2])
     view.print_general_results(list_of_subscribed_emails, 'Subscribed emails')
 
 
