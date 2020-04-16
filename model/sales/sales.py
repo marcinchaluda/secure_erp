@@ -40,9 +40,9 @@ def update_transaction(number, entry):
     index_of_transaction = int(number) - 1
     transactions = read_data_from_file()
     product, price, date = entry
-    transactions[index_of_transaction][2] = product
-    transactions[index_of_transaction][3] = price
-    transactions[index_of_transaction][4] = date
+    element_index = HEADERS.index("Product")
+    for index, transaction in enumerate(entry):
+        transactions[index_of_transaction][element_index + index] = entry[index]
     write_data_to_file(transactions)
 
 
