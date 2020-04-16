@@ -17,20 +17,24 @@ def add_transaction():
 def update_transaction():
     try:
         transaction_number = view.get_input("transaction number")
-        if int(transaction_number) == 0:
-            raise IndexError
-        entry = view.get_inputs(["product", "price", "date"])
-        sales.update_transaction(transaction_number, entry)
+        if transaction_index_valid(transaction_number):
+            entry = view.get_inputs(["product", "price", "date"])
+            sales.update_transaction(transaction_number, entry)
     except IndexError:
         view.print_error_message("Index not found")
+
+
+def transaction_index_valid(number):
+    if int(number) == 0 or int(number) > len(sales.read_data_from_file()):
+        raise IndexError
+    return True
 
 
 def delete_transaction():
     try:
         transaction_number = view.get_input("transaction number")
-        if int(transaction_number) == 0:
-            raise IndexError
-        sales.remove_transaction(transaction_number)
+        if transaction_index_valid(transaction_number):
+            sales.remove_transaction(transaction_number)
     except IndexError:
         view.print_error_message("Index not found")
 
@@ -59,34 +63,29 @@ def get_biggest_revenue_product():
     print(best_seller[0])
 
 
-def check_dates(start_date, end_date, transaction_date):
-    start_date = time.strptime(start_date, "%Y-%m-%d")
-    end_date = time.strptime(end_date, "%Y-%m-%d")
-    transaction_date = time.strptime(transaction_date, "%Y-%m-%d")
-    if transaction_date >= start_date and transaction_date <= end_date:
-        return True
-    return False
-
-
-def count_transactions_between(other_funtion_use=False):
+def count_transactions_between():
     start_date, end_date = view.get_inputs(["start date", "end date"])
     transactions = sales.read_data_from_file()
+    view.print_message(len(transactions_between_dates(start_date, end_date, transactions)))
+
+
+def transactions_between_dates(start_date, end_date, transactions):
+    start_date = time.strptime(start_date, "%Y-%m-%d")
+    end_date = time.strptime(end_date, "%Y-%m-%d")
     data_index = sales.HEADERS.index("Date")
     transactions_between_dates = []
     for transaction in transactions:
-        compare_dates = check_dates(start_date, end_date, transaction[data_index])
-        if compare_dates:
+        transaction[data_index] = time.strptime(transaction[data_index], "%Y-%m-%d")
+        if transaction[data_index] >= start_date and transaction[data_index] <= end_date:
             transactions_between_dates.append(transaction)
-    if other_funtion_use:
-        return transactions_between_dates
-    else:
-        view.print_message(len(transactions_between_dates))
+    return transactions_between_dates
 
 
 def sum_transactions_between():
-    transactions_between_dates = count_transactions_between(True)
+    start_date, end_date = view.get_inputs(["start date", "end date"])
+    transactions = sales.read_data_from_file()
     price_index = sales.HEADERS.index("Price")
-    transactions_price = [float(element[price_index]) for element in transactions_between_dates]
+    transactions_price = [float(element[price_index]) for element in transactions_between_dates(start_date, end_date, transactions)]
     prices_sum = sum(transactions_price)
     view.print_message(prices_sum)
 
