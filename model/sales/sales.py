@@ -39,9 +39,7 @@ def add_transaction(entry):
 def update_transaction(number, entry):
     index_of_transaction = int(number) - 1
     transactions = read_data_from_file()
-    id, customer, product, price, date = entry
-    transactions[index_of_transaction][0] = id
-    transactions[index_of_transaction][1] = customer
+    product, price, date = entry
     transactions[index_of_transaction][2] = product
     transactions[index_of_transaction][3] = price
     transactions[index_of_transaction][4] = date
