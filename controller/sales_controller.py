@@ -17,20 +17,24 @@ def add_transaction():
 def update_transaction():
     try:
         transaction_number = view.get_input("transaction number")
-        if int(transaction_number) == 0 or int(transaction_number) > len(sales.read_data_from_file()):
-            raise IndexError
-        entry = view.get_inputs(["product", "price", "date"])
-        sales.update_transaction(transaction_number, entry)
+        if employee_index_valid(transaction_number):
+            entry = view.get_inputs(["product", "price", "date"])
+            sales.update_transaction(transaction_number, entry)
     except IndexError:
         view.print_error_message("Index not found")
+
+
+def employee_index_valid(number):
+    if int(number) == 0 or int(number) > len(sales.read_data_from_file()):
+        raise IndexError
+    return True
 
 
 def delete_transaction():
     try:
         transaction_number = view.get_input("transaction number")
-        if int(transaction_number) == 0:
-            raise IndexError
-        sales.remove_transaction(transaction_number)
+        if employee_index_valid(transaction_number):
+            sales.remove_transaction(transaction_number)
     except IndexError:
         view.print_error_message("Index not found")
 
