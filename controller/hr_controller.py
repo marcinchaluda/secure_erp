@@ -62,7 +62,7 @@ def list_employees():
 def add_employee():
     try:
         entry = get_input_from_user("add")
-        if check_date_valid(entry[1]):
+        if inputted_date_in_right_format(entry[1]):
             hr.append_nested_list_and_write_content(entry)
     except ValueError:
         view.print_error_message("Date in invalid format")
@@ -86,18 +86,12 @@ def get_input_from_user(mode):
     return view.get_inputs(text[mode])
 
 
-def check_date_valid(date):
-    if inputted_date_in_right_format(date):
-        raise ValueError
-    return True
-
-
 def inputted_date_in_right_format(date):
     if len(date) == 10 and date[4] == "-" and date[7] == "-":
         if date[0].isdigit() and date[1].isdigit() and date[2].isdigit() and date[3].isdigit():
             if date[5].isdigit() and date[6].isdigit() and date[8].isdigit() and date[9].isdigit():
                 return True
-    return False
+    raise ValueError
 
 
 def update_employee():
@@ -105,7 +99,7 @@ def update_employee():
         number = view.get_input("number of employee")
         if check_employee_index_valid(number):
             entry = get_input_from_user("update")
-            if check_date_valid(entry[1]):
+            if inputted_date_in_right_format(entry[1]):
                 hr.update_nested_list_and_write_content(number, entry)
     except IndexError:
         view.print_error_message("Index not found")
