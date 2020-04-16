@@ -1,6 +1,7 @@
 from view import terminal as view
 from controller import crm_controller, sales_controller, hr_controller
 from os import system
+from time import sleep
 
 
 def load_module(option):
@@ -24,7 +25,20 @@ def display_menu():
     view.print_menu("Main menu", options)
 
 
+def display_logotype():
+    loading_screen = ""
+    with open("logotype.txt", "r") as f:
+        logotype = f.read()
+        for i in range(10):
+            system("clear")
+            print(logotype)
+            print("Loading:", loading_screen)
+            loading_screen += ("%" * 10)
+            sleep(0.3)
+
+
 def menu():
+    display_logotype()
     system("clear")
     option = None
     while option != '0':
