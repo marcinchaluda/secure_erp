@@ -3,30 +3,69 @@ from view import terminal as view
 from os import system
 
 
+def menu():
+    operation = None
+    while operation != '0':
+        display_menu()
+        try:
+            operation = view.get_input("Select an operation")
+            system("clear")
+            run_operation(int(operation))
+        except KeyError as err:
+            view.print_error_message(err)
+
+
+def display_menu():
+    options = ["Back to main menu",
+               "List employees",
+               "Add new employee",
+               "Update employee",
+               "Remove employee",
+               "Oldest and youngest employees",
+               "Employees average age",
+               "Employees with birthdays in the next two weeks",
+               "Employees with clearance level",
+               "Employee numbers by department"]
+    view.print_menu("Human resources", options)
+
+
+def run_operation(option):
+    if option == 1:
+        list_employees()
+    elif option == 2:
+        add_employee()
+    elif option == 3:
+        update_employee()
+    elif option == 4:
+        delete_employee()
+    elif option == 5:
+        get_oldest_and_youngest()
+    elif option == 6:
+        get_average_age()
+    elif option == 7:
+        next_birthdays()
+    elif option == 8:
+        count_employees_with_clearance()
+    elif option == 9:
+        count_employees_per_department()
+    elif option == 0:
+        return
+    else:
+        raise KeyError("There is no such option.")
+
+
 def list_employees():
     list_of_employes = hr.print_content_from_file_in_nested_list()
     view.print_table(list_of_employes)
 
 
 def add_employee():
-    entry = get_input_from_user("add")
-    hr.append_nested_list_and_write_content(entry)
-
-
-def update_employee():
     try:
-        number = view.get_input("number of employee")
-        if employee_index_valid(number):
-            entry = get_input_from_user("update")
-            hr.update_nested_list_and_write_content(number, entry)
-    except IndexError:
-        view.print_error_message("Index not found")
-
-
-def employee_index_valid(number):
-    if int(number) == 0 or int(number) > len(hr.read_content_from_file_in_nested_list()):
-        raise IndexError
-    return True
+        entry = get_input_from_user("add")
+        if check_date_valid(entry[1]):
+            hr.append_nested_list_and_write_content(entry)
+    except ValueError:
+        view.print_error_message("Date in invalid format")
 
 
 def get_input_from_user(mode):
@@ -47,10 +86,43 @@ def get_input_from_user(mode):
     return view.get_inputs(text[mode])
 
 
+def check_date_valid(date):
+    if inputted_date_in_right_format(date):
+        raise ValueError
+    return True
+
+
+def inputted_date_in_right_format(date):
+    if len(date) == 10 and date[4] == "-" and date[7] == "-":
+        if date[0].isdigit() and date[1].isdigit() and date[2].isdigit() and date[3].isdigit():
+            if date[5].isdigit() and date[6].isdigit() and date[8].isdigit() and date[9].isdigit():
+                return True
+    return False
+
+
+def update_employee():
+    try:
+        number = view.get_input("number of employee")
+        if check_employee_index_valid(number):
+            entry = get_input_from_user("update")
+            if check_date_valid(entry[1]):
+                hr.update_nested_list_and_write_content(number, entry)
+    except IndexError:
+        view.print_error_message("Index not found")
+    except ValueError:
+        view.print_error_message("Date in invalid format")
+
+
+def check_employee_index_valid(number):
+    if int(number) == 0 or int(number) > len(hr.read_content_from_file_in_nested_list()):
+        raise IndexError
+    return True
+
+
 def delete_employee():
     try:
         number = view.get_input("number of employee")
-        if employee_index_valid(number):
+        if check_employee_index_valid(number):
             hr.delete_nested_list_and_write_content(number)
     except IndexError:
         view.print_error_message("Index not found")
@@ -104,14 +176,6 @@ def next_birthdays():
         view.print_error_message("Data in invalid format")
 
 
-def inputted_date_in_right_format(date):
-    if len(date) == 10 and date[4] == "-" and date[7] == "-":
-        if date[0].isdigit() and date[1].isdigit() and date[2].isdigit() and date[3].isdigit():
-            if date[5].isdigit() and date[6].isdigit() and date[8].isdigit() and date[9].isdigit():
-                return True
-    return False
-
-
 def change_data_into_correct_format(max_day, max_month, max_year):
     dict_of_days_in_month = {
         "1": 31, "2": 28, "3": 31, "4": 30, "5": 31, "6": 30,
@@ -154,54 +218,3 @@ def count_employees_per_department():
         else:
             dictionary_of_departments[employee[department]] = 1
     view.print_general_results(dictionary_of_departments, label)
-
-
-def run_operation(option):
-    if option == 1:
-        list_employees()
-    elif option == 2:
-        add_employee()
-    elif option == 3:
-        update_employee()
-    elif option == 4:
-        delete_employee()
-    elif option == 5:
-        get_oldest_and_youngest()
-    elif option == 6:
-        get_average_age()
-    elif option == 7:
-        next_birthdays()
-    elif option == 8:
-        count_employees_with_clearance()
-    elif option == 9:
-        count_employees_per_department()
-    elif option == 0:
-        return
-    else:
-        raise KeyError("There is no such option.")
-
-
-def display_menu():
-    options = ["Back to main menu",
-               "List employees",
-               "Add new employee",
-               "Update employee",
-               "Remove employee",
-               "Oldest and youngest employees",
-               "Employees average age",
-               "Employees with birthdays in the next two weeks",
-               "Employees with clearance level",
-               "Employee numbers by department"]
-    view.print_menu("Human resources", options)
-
-
-def menu():
-    operation = None
-    while operation != '0':
-        display_menu()
-        try:
-            operation = view.get_input("Select an operation")
-            system("clear")
-            run_operation(int(operation))
-        except KeyError as err:
-            view.print_error_message(err)

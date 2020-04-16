@@ -24,6 +24,10 @@ def print_content_from_file_in_nested_list():
     return data
 
 
+def write_to_file(data):
+    data_manager.write_table_to_file(DATAFILE, data)
+
+
 def append_nested_list_and_write_content(entry):
     data = data_manager.read_table_from_file(DATAFILE)
     name, birth_date, department, clearance = entry
@@ -53,7 +57,3 @@ def update_nested_list_and_write_content(index_of_employee, entry):
     list_of_employes[employee_atribute["index"]][employee_atribute["department"]] = department
     list_of_employes[employee_atribute["index"]][employee_atribute["clearance"]] = clearance
     write_to_file(list_of_employes)
-
-
-def write_to_file(data):
-    data_manager.write_table_to_file(DATAFILE, data)
