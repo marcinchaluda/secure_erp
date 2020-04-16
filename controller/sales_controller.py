@@ -59,7 +59,7 @@ def get_biggest_revenue_transaction():
     price_index = sales.HEADERS.index("Price")
     transaction_price = [float(transaction[price_index]) for transaction in transactions]
     transaction_index = transaction_price.index(max(transaction_price))
-    view.print_message(transactions[transaction_index])
+    view.print_general_results(transactions[transaction_index], "Biggest revenue transaction")
 
 
 def get_biggest_revenue_product():
@@ -77,7 +77,7 @@ def get_biggest_revenue_product():
         if best_seller < products_revenue[transaction[product_index]]:
             best_seller = products_revenue[transaction[product_index]]
             product_key = transaction[product_index]
-    view.print_message(product_key)
+    view.print_message(f"Product with the highest revenue: {product_key}")
 
 
 def count_transactions_between():
@@ -85,7 +85,7 @@ def count_transactions_between():
         start_date, end_date = view.get_inputs(["start date", "end date"])
         if date_correct_input(start_date) or date_correct_input(end_date):
             transactions = sales.read_data_from_file()
-            view.print_message(len(transactions_between_dates(start_date, end_date, transactions)))
+            view.print_general_results(len(transactions_between_dates(start_date, end_date, transactions)), f"Number of transactions between {start_date} and {end_date}")
     except ValueError:
         view.print_error_message("Date in invalid format")
 
@@ -107,7 +107,7 @@ def sum_transactions_between():
     price_index = sales.HEADERS.index("Price")
     transactions_price = [float(element[price_index]) for element in transactions_between_dates(start_date, end_date, transactions)]
     prices_sum = sum(transactions_price)
-    view.print_message(prices_sum)
+    view.print_general_results(prices_sum, f"Sum of transactions between {start_date} and {end_date}")
 
 
 def run_operation(option):
