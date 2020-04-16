@@ -22,14 +22,14 @@ def print_general_results(result, label):
     (like "@label \n  @key1: @value1; @key2: @value2")
     """
     if type(result) == int or type(result) == float:
-        print(f"{label} : {round(result, 2)}")
+        print(f"{label}: {round(result, 2)}")
     elif type(result) == list or type(result) == tuple:
         print(label + ":")
         print(*result)
     else:
         print(label + ":")
         for key in result:
-            print(str(key + ' : ' + str(result[key])), end='; ')
+            print(str(key + ': ' + str(result[key])), end='; ')
         print()
 
 
