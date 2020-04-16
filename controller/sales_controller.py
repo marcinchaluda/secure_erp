@@ -48,22 +48,15 @@ def get_biggest_revenue_product():
     price_index = sales.HEADERS.index("Price")
     product_index = sales.HEADERS.index("Product")
     products_revenue = {}
-    product_scores = []
+    best_seller = 0
 
     for transaction in transactions:
         if transaction[product_index] not in products_revenue.keys():
-            products_revenue[transaction[product_index]] = [float(transaction[price_index])]
+            products_revenue[transaction[product_index]] = float(transaction[price_index])
         else:
-            products_revenue[transaction[product_index]].append(float(transaction[price_index]))
-
-    for key, value in products_revenue.items():
-        product_scores.append(sum(value))
-
-    best_seller = max(product_scores)
-
-    for key, value in products_revenue.items():
-        if best_seller == sum(value):
-            view.print_message(key)
+            products_revenue[transaction[product_index]] += float(transaction[price_index])
+    best_seller = [key for key in products_revenue if products_revenue[key] == max(products_revenue.values())] 
+    print(best_seller[0])
 
 
 def check_dates(start_date, end_date, transaction_date):
