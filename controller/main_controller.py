@@ -29,12 +29,12 @@ def display_logotype():
     loading_screen = ""
     with open("logotype.txt", "r") as f:
         logotype = f.read()
-        for i in range(10):
+        for i in range(21):
             system("clear")
             print(logotype)
             print("Loading:", loading_screen)
-            loading_screen += ("%" * 10)
-            sleep(0.3)
+            loading_screen += ("%" * 3)
+            sleep(0.12)
 
 
 def menu():
