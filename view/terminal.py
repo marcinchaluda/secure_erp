@@ -116,5 +116,4 @@ def print_error_message(message):
     Args:
         message: str - the error message
     """
-        
-    print('\n'+ message +'\n')
+    print('\n' + str(message) + '\n')
