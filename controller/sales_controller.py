@@ -10,8 +10,20 @@ def list_transactions():
 
 
 def add_transaction():
-    entry = view.get_inputs(["product", "price", "date"])
-    sales.add_transaction(entry)
+    try:
+        entry = view.get_inputs(["product", "price", "date"])
+        if date_correct_input(entry[2]):
+            sales.add_transaction(entry)
+    except ValueError:
+        view.print_error_message("Date in invalid format")
+
+
+def date_correct_input(date):
+    if len(date) == 10 and date[4] == "-" and date[7] == "-":
+        if date[0].isdigit() and date[1].isdigit() and date[2].isdigit() and date[3].isdigit():
+            if date[5].isdigit() and date[6].isdigit() and date[8].isdigit() and date[9].isdigit():
+                return True
+    raise ValueError
 
 
 def update_transaction():
@@ -19,9 +31,12 @@ def update_transaction():
         transaction_number = view.get_input("transaction number")
         if transaction_index_valid(transaction_number):
             entry = view.get_inputs(["product", "price", "date"])
-            sales.update_transaction(transaction_number, entry)
+            if date_correct_input(entry[2]):
+                sales.update_transaction(transaction_number, entry)
     except IndexError:
         view.print_error_message("Index not found")
+    except ValueError:
+        view.print_error_message("Date in invalid format")
 
 
 def transaction_index_valid(number):
@@ -59,15 +74,20 @@ def get_biggest_revenue_product():
             products_revenue[transaction[product_index]] = float(transaction[price_index])
         else:
             products_revenue[transaction[product_index]] += float(transaction[price_index])
-    best_seller = [key for key in products_revenue if products_revenue[key] == max(products_revenue.values())] 
-    print(best_seller[0])
+        if best_seller < products_revenue[transaction[product_index]]:
+            best_seller = products_revenue[transaction[product_index]]
+            product_key = transaction[product_index]
+    view.print_message(product_key)
 
 
 def count_transactions_between():
-    start_date, end_date = view.get_inputs(["start date", "end date"])
-    transactions = sales.read_data_from_file()
-    view.print_message(len(transactions_between_dates(start_date, end_date, transactions)))
-
+    try:
+        start_date, end_date = view.get_inputs(["start date", "end date"])
+        if date_correct_input(start_date) or date_correct_input(end_date):
+            transactions = sales.read_data_from_file()
+            view.print_message(len(transactions_between_dates(start_date, end_date, transactions)))
+    except ValueError:
+        view.print_error_message("Date in invalid format")
 
 def transactions_between_dates(start_date, end_date, transactions):
     start_date = time.strptime(start_date, "%Y-%m-%d")
