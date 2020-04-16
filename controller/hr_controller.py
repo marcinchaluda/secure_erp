@@ -16,12 +16,17 @@ def add_employee():
 def update_employee():
     try:
         number = view.get_input("number of employee")
-        if int(number) == 0 or int(number) > len(hr.read_content_from_file_in_nested_list()):
-            raise IndexError
-        entry = get_input_from_user("update")
-        hr.update_nested_list_and_write_content(number, entry)
+        if employee_index_valid(number):
+            entry = get_input_from_user("update")
+            hr.update_nested_list_and_write_content(number, entry)
     except IndexError:
         view.print_error_message("Index not found")
+
+
+def employee_index_valid(number):
+    if int(number) == 0 or int(number) > len(hr.read_content_from_file_in_nested_list()):
+        raise IndexError
+    return True
 
 
 def get_input_from_user(mode):
@@ -39,16 +44,14 @@ def get_input_from_user(mode):
             "new clearance"
             ]
     }
-    entry = view.get_inputs(text[mode])
-    return entry
+    return view.get_inputs(text[mode])
 
 
 def delete_employee():
     try:
         number = view.get_input("number of employee")
-        if int(number) == 0:
-            raise IndexError
-        hr.delete_nested_list_and_write_content(number)
+        if employee_index_valid(number):
+            hr.delete_nested_list_and_write_content(number)
     except IndexError:
         view.print_error_message("Index not found")
 
@@ -56,8 +59,8 @@ def delete_employee():
 def get_oldest_and_youngest():
     label = ("Oldest person and Youngest person")
     list_of_employes = hr.read_content_from_file_in_nested_list()
-    name = 1
-    birth_date = 2
+    name = hr.HEADERS.index("Name")
+    birth_date = hr.HEADERS.index("Date of birth")
     dict_of_names_with_birth_date = {}
     for employee in list_of_employes:
         dict_of_names_with_birth_date[employee[birth_date]] = employee[name]
@@ -70,7 +73,7 @@ def get_oldest_and_youngest():
 def get_average_age():
     label = "Average age of employees"
     list_of_employes = hr.read_content_from_file_in_nested_list()
-    birth_date = 2
+    birth_date = hr.HEADERS.index("Date of birth")
     sum_of_age = 0
     for employee in list_of_employes:
         birth_date_in_list = employee[birth_date].split("-")
@@ -84,8 +87,8 @@ def next_birthdays():
     label = "Employees which have birthday in 14days from inputted date"
     list_of_employes = hr.read_content_from_file_in_nested_list()
     list_of_employes_with_birthday = []
-    name = 1
-    birth_date = 2
+    name = hr.HEADERS.index("Name")
+    birth_date = hr.HEADERS.index("Date of birth")
     try:
         start_date = view.get_input("data")
         if not inputted_date_in_right_format(start_date):
@@ -131,7 +134,7 @@ def change_data_into_correct_format(max_day, max_month, max_year):
 def count_employees_with_clearance():
     label = "Number of employees with inputted clearance level or greater"
     list_of_employes = hr.read_content_from_file_in_nested_list()
-    clearance = 4
+    clearance = hr.HEADERS.index("Clearance")
     iterator = 0
     number = view.get_input("clearance level")
     for employee in list_of_employes:
@@ -144,7 +147,7 @@ def count_employees_per_department():
     label = "Employees in department in dictionary"
     list_of_employes = hr.read_content_from_file_in_nested_list()
     dictionary_of_departments = {}
-    department = 3
+    department = hr.HEADERS.index("Department")
     for employee in list_of_employes:
         if employee[department] in dictionary_of_departments:
             dictionary_of_departments[employee[department]] += 1

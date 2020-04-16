@@ -43,10 +43,10 @@ def update_nested_list_and_write_content(index_of_employee, entry):
     list_of_employes = data_manager.read_table_from_file(DATAFILE)
     employee_atribute = {
         "index": int(index_of_employee) - 1,
-        "name": 1,
-        "birth date": 2,
-        "department": 3,
-        "clearance": 4
+        "name": HEADERS.index("Name"),
+        "birth date": HEADERS.index("Date of birth"),
+        "department": HEADERS.index("Department"),
+        "clearance": HEADERS.index("Clearance")
     }
     list_of_employes[employee_atribute["index"]][employee_atribute["name"]] = name
     list_of_employes[employee_atribute["index"]][employee_atribute["birth date"]] = birth_date
