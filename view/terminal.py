@@ -12,7 +12,7 @@ def print_message(message):
     Args:
         message: str - the message
     """
-    print(message)
+    print(str(message) + '\n')
 
 
 def print_general_results(result, label):
@@ -116,5 +116,4 @@ def print_error_message(message):
     Args:
         message: str - the error message
     """
-
-    print('\n' + message + '\n')
+    print(str(message) + '\n')

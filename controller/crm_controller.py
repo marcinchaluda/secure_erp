@@ -18,7 +18,7 @@ def update_customer():
     entry = view.get_inputs(['new name', 'new email', 'if subscribed(Yes-1, No-0'])
     try:
         if int(number) == 0:
-            raise IndexError   
+            raise IndexError
         crm.update_nested_list_and_write_content(number, entry)
     except IndexError:
         view.print_error_message('There is no position with this number!')
